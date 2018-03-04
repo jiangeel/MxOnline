@@ -1,0 +1,80 @@
+  {% extends 'org_base.html' %}
+
+   {% block title %}机构讲师{% endblock %}
+
+{% block page_path %}机构讲师{% endblock %}
+
+        {% block right_form %}
+<div class="right companycenter layout" >
+        <div class="head">
+            <h1>机构讲师</h1>
+        </div>
+        <div class="messagelist">
+            <div class=" butler_list butler-fav-box">
+
+                {% for teacher in all_teachers.object_list %}
+                <dl class="des users">
+                    <dt>
+                        <a href="{% url 'org:teacher_detail' teacher.id %} ">
+                        <img width="100" height="100" class="scrollLoading" data-url="{{ teacher.image_url }}" src="{{ teacher.image_url }}"/>
+                        </a>
+                    </dt>
+                    <dd>
+                        <h1>
+                            <a href="">
+                            {{ teacher.teacher_name }}<span class="key">已认证</span>
+                            </a>
+                        </h1>
+                        <ul class="cont clearfix">
+{#                            <li class="time">工作年限：<span>{{ teacher.work_years }}</span></li>#}
+                            <li class="c7">课程数：<span>10086</span></li>
+                        </ul>
+                    </dd>
+                </dl>
+                {% endfor %}
+
+            </div>
+
+
+         <div class="pageturn">
+        <ul class="pagelist">
+
+
+     <!--分页 -->
+    <div class="pageturn">
+      <ul class="pagelist">
+
+  {% if all_teachers.has_previous %}
+         <li class="long"><a href="?{{ all_teachers.previous_page_number.querystring }}">上一页</a></li>
+    {% endif %}
+
+    {% for teacher in all_teachers.pages %}
+        {% if teacher %}
+            {% ifequal teacher all_teachers.number %}
+                <li class="active"><a href="?{{ teacher.querystring }}" class="page">{{ teacher }}</a></li>
+            {% else %}
+                 <li><a href="?{{ teacher.querystring }}" class="page">{{ teacher }}</a></li>
+            {% endifequal %}
+        {% else %}
+            <li class="none"><a href="">...</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if all_teachers.has_next %}
+        <li class="long"><a href="?{{ all_teachers.next_page_number.querystring }}">下一页</a></li>
+    {% endif %}
+
+
+        </ul>
+    </div>
+
+
+        </ul>
+    </div>
+
+
+
+        </div>
+    </div>
+
+        {% endblock %}

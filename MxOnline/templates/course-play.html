@@ -1,0 +1,41 @@
+{% extends 'course-video.html' %}
+{% load staticfiles %}
+{% block title %} 课程评论 - 慕学在线网{% endblock %}
+
+
+{%  block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                 <li><a href="{% url 'courses:courses_list' %}">公开课</a>></li>
+				<li><a href="{% url 'courses:course_detail' course.id %}">{{ course.name }}</a>></li>
+                <li><a href="{% url 'courses:course_video' video.lesson.id %}">{{ video.lesson.name }}</a>></li>
+                <li>{{ video.name }}</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+{% block info %}
+  <div id="main">
+        <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width=600
+              poster="http://video-js.zencoder.com/oceans-clip.png"
+              data-setup="{}">
+            <source src="http://of66as8gb.bkt.clouddn.com/12.2%20xss%E6%94%BB%E5%87%BB%E5%8E%9F%E7%90%86%E5%8F%8A%E9%98%B2%E8%8C%83.mp4" type='video/mp4'>
+        </video>
+    </div>
+
+    <style>
+    .video-js .vjs-big-play-button{
+            top: 50%;
+            left: 50%;
+        }
+    </style>
+
+{% endblock %}
+
+
+
+
+

@@ -1,0 +1,40 @@
+{% extends 'usercenter-base.html' %}
+{% load staticfiles %}
+{% block right %}
+    
+    <div class="right" >
+		<div class="personal_des Releasecont">
+			<div class="head">
+				<h1>我的课程</h1>
+			</div>
+		</div>
+		<div class="personal_des permessage">
+			<div class="companycenter">
+				<div class="group_list brief">
+
+                    {% for course in all_courses %}
+                    <div class="module1_5 box">
+                            <a href="course-detail.html">
+                                <img width="214" height="190" class="scrollLoading" src="../media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg"/>
+                            </a>
+                            <div class="des">
+                                <a href="course-detail.html"><h2>django与vuejs实战项目2</h2></a>
+                                <span class="fl">课时：<i class="key">0</i></span>
+                                <span class="fr">学习人数：13</span>
+                            </div>
+                            <div class="bottom">
+                                <span class="fl">北京大学</span>
+                                <span class="star fr  notlogin" data-favid="15">0</span>
+                            </div>
+                        </div>
+                 {% endfor %}
+                    
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+

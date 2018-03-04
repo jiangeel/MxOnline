@@ -1,0 +1,120 @@
+{% extends 'course-base.html' %}
+{% load staticfiles %}
+{% block title %} 课程评论 - 慕学在线网{% endblock %}
+
+
+{%  block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                 <li><a href="{% url 'courses:courses_list' %}">公开课</a>></li>
+				<li><a href="{% url 'courses:course_detail' course.id %}">课程详情</a>></li>
+                 <li>课程评论</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+
+
+
+{% block center %}
+
+
+    <!--发布评论-->
+    <div id="js-pub-container" class="issques clearfix js-form">
+        <div class="wgt-ipt-wrap pub-editor-wrap " id="js-pl-input-fake">
+            <textarea id="js-pl-textarea" class="" placeholder="扯淡、吐槽、表扬、鼓励……想说啥就说啥！" ></textarea>
+        </div>
+        <input type="button" id="js-pl-submit" class="pub-btn" data-cid="452" value="发表评论">
+        <p class="global-errortip js-global-error"></p>
+    </div>
+
+
+    <div id="course_note">
+        <ul class="mod-post" id="comment-list">
+
+           {% for comment in all_comments.object_list %}
+            <li class="post-row">
+                <div class="media">
+                    <span target="_blank"><img src='{{ comment.comment_user_img }}' width='40' height='40' /></span>
+                </div>
+                <div class="bd">
+                    <div class="tit">
+                        <span target="_blank">{{ comment.user }}</span>
+                    </div>
+                    <p class="cnt">{{ comment.comments }}</p>
+                    <div class="footer clearfix">
+                        <span title="创建时间" class="l timeago">{{ comment.comment_time }}</span>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+        <!--分页 -->
+    <div class="pageturn">
+      <ul class="pagelist">
+
+  {% if all_comments.has_previous %}
+         <li class="long"><a href="?{{ all_comments.previous_page_number.querystring }}">上一页</a></li>
+    {% endif %}
+
+    {% for comment in all_comments.pages %}
+        {% if comment %}
+            {% ifequal comment all_comments.number %}
+                <li class="active"><a href="?{{ comment.querystring }}" class="page">{{ comment }}</a></li>
+            {% else %}
+                 <li><a href="?{{ comment.querystring }}" class="page">{{ comment }}</a></li>
+            {% endifequal %}
+        {% else %}
+            <li class="none"><a href="">...</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if all_comments.has_next %}
+        <li class="long"><a href="?{{ all_comments.next_page_number.querystring }}">下一页</a></li>
+    {% endif %}
+
+
+        </ul>
+    </div>
+
+
+<script type="text/javascript">
+    //添加评论
+    $('#js-pl-submit').on('click', function(){
+        var comments = $("#js-pl-textarea").val()
+        if(comments == ""){
+            alert("评论不能为空")
+            return
+        }
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url:"{% url 'courses:course_add_comment' %}",
+            data:{'course_id':{{ course.id }}, 'comments':comments},
+            async: true,
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            },
+            success: function(data) {
+                if(data.status == 'fail'){
+                    if(data.msg == '用户未登录'){
+                        window.location.href="/login/";
+                    }else{
+                        alert(data.msg)
+                    }
+
+                }else if(data.status == 'success'){
+                    alert(data.msg)
+                    window.location.reload();//刷新当前页面.
+                }
+            },
+        });
+    });
+
+</script>
+
+{% endblock %}

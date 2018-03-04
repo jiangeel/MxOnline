@@ -1,0 +1,31 @@
+
+{% extends 'course-base.html' %}
+{% load staticfiles %}
+{% block center %}
+
+ <div class="mod-chapters">
+
+        {% for lesson in course.get_lessons %}
+     <div class="chapter chapter-active" >
+                        <h3>
+                            <strong><i class="state-expand"></i>{{ lesson.lesson_name }}</strong>
+                        </h3>
+                        <ul class="video">
+                        {% for video in lesson.get_videos %}
+                            <li>
+{#                            {% url 'courses:course_play' video.id %}#}
+                                <a target="_blank" href="https://www.imooc.com{{ video.video_url }}" class="J-media-item studyvideo">{{ video.video_name }}
+                                    <i class="study-state"></i>
+                                </a>
+                            </li>
+                            {% endfor %}
+
+
+                        </ul>
+       </div>
+            {% endfor %}
+
+ </div>
+
+
+{% endblock %}
